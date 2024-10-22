@@ -22,8 +22,12 @@ public class Car_Controller : MonoBehaviour
     public WheelCollider wc_BackLeft;
     public WheelCollider wc_BackRight;
 
+    [Header("Jump Settings")]
+    public float jumpForce = 10f;
+
     void Start()
     {
+        carBody = GetComponent<Rigidbody>();
 
     }
 
@@ -44,6 +48,22 @@ public class Car_Controller : MonoBehaviour
             isHandBrakePressed = false;
         }
 
+        if (Input.GetKeyDown(KeyCode.K) && GroundCheck())
+        {
+            Jump();
+        }
+
+        bool GroundCheck()
+        {
+            return Physics.Raycast(transform.position, transform.up * -1f, 1.1f);
+        }
+
+    }
+
+    private void Jump()
+    {
+        carBody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        Debug.Log("Car Jumped!!");
     }
 
     private void FixedUpdate()
