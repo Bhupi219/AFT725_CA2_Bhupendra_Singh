@@ -1194,6 +1194,9 @@ MonoBehaviour:
   wc_FrontRight: {fileID: 2121736951}
   wc_BackLeft: {fileID: 301104761}
   wc_BackRight: {fileID: 125056739}
+  nitroBoost: 100
+  nitroDuration: 3
+  nitroCooldown: 5
   jumpForce: 4000
 --- !u!1 &5883293328716801755
 GameObject:

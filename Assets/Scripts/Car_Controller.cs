@@ -22,6 +22,13 @@ public class Car_Controller : MonoBehaviour
     public WheelCollider wc_BackLeft;
     public WheelCollider wc_BackRight;
 
+    [Header("Nitro Setting")]
+    public float nitroBoost = 2f;
+    public float nitroDuration = 3f;
+    public float nitroCooldown = 5f;
+    private bool isNitroActive = false;
+    private float nitroTimer = 0f;
+
     [Header("Jump Settings")]
     public float jumpForce = 10f;
 
@@ -34,9 +41,7 @@ public class Car_Controller : MonoBehaviour
     void Update()
     {
         currentVelocity = carBody.velocity;
-
         accelerationInput = Input.GetAxis("Vertical");
-
         targetTurnInput = Input.GetAxis("Horizontal");
 
         if (Input.GetKeyDown(KeyCode.Space))
@@ -58,6 +63,32 @@ public class Car_Controller : MonoBehaviour
             return Physics.Raycast(transform.position, transform.up * -1f, 1.1f);
         }
 
+        if (Input.GetKeyDown(KeyCode.L) && !isNitroActive)
+        {
+            ActivateNitro();
+        }
+
+        if (isNitroActive)
+        {
+            nitroTimer -= Time.deltaTime;
+            if (nitroTimer <= 0)
+            {
+                DeactivateNitro();
+            }
+        }
+
+    }
+
+    private void ActivateNitro()
+    {
+        isNitroActive = true;
+        nitroTimer = nitroDuration;
+        Debug.Log("Nitro Activated!");
+    }
+    private void DeactivateNitro()
+    {
+        isNitroActive = false;
+        Debug.Log("Nitro Deactivated!");
     }
 
     private void Jump()
@@ -99,14 +130,20 @@ public class Car_Controller : MonoBehaviour
             wc_BackLeft.brakeTorque = handBrake;
             wc_BackRight.brakeTorque = handBrake;
 
-            // Disable motor torque while handbrake is applied
             wc_BackLeft.motorTorque = 0;
             wc_BackRight.motorTorque = 0;
         }
-        else if (!isHandBrakePressed && Dotproduct > 0) // Reset brake torque when handbrake is released
+        else if (!isHandBrakePressed && Dotproduct > 0)
         {
             wc_BackLeft.brakeTorque = 0;
             wc_BackRight.brakeTorque = 0;
+        }
+
+        float currentTorque = accelerationInput * carHorsePower;
+
+        if (isNitroActive)
+        {
+            currentTorque *= nitroBoost;
         }
 
 
@@ -156,4 +193,5 @@ public class Car_Controller : MonoBehaviour
         return currentValue;
 
     }
+
 }
