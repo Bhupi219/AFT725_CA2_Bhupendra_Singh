@@ -115,7 +115,7 @@ public class Car_Controller : MonoBehaviour
             wc_BackLeft.brakeTorque = 0;
             wc_BackRight.brakeTorque = 0;
         }
-        else if (Dotproduct > 0)
+        else
         {
             wc_FrontRight.brakeTorque = 0;
             wc_FrontLeft.brakeTorque = 0;
