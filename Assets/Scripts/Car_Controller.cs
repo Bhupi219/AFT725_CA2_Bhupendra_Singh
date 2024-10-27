@@ -112,8 +112,8 @@ public class Car_Controller : MonoBehaviour
 
             wc_FrontLeft.brakeTorque = 1000f;
             wc_FrontRight.brakeTorque = 1000f;
-            wc_BackLeft.brakeTorque = 0;
-            wc_BackRight.brakeTorque = 0;
+            wc_BackLeft.brakeTorque = 1000f;
+            wc_BackRight.brakeTorque = 1000f;
         }
         else
         {
@@ -122,6 +122,8 @@ public class Car_Controller : MonoBehaviour
             wc_BackLeft.brakeTorque = 0;
             wc_BackRight.brakeTorque = 0;
 
+            wc_FrontLeft.motorTorque = accelerationInput * carHorsePower;
+            wc_FrontRight.motorTorque = accelerationInput * carHorsePower;
             wc_BackRight.motorTorque = accelerationInput * carHorsePower;
             wc_BackLeft.motorTorque = accelerationInput * carHorsePower;
         }
